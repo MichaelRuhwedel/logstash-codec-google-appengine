@@ -1,5 +1,5 @@
 require "logstash/devutils/rspec/spec_helper"
-require "logstash/codecs/google-appengine"
+require "logstash/codecs/google_appengine"
 require "logstash/event"
 require "logstash/json"
 require "insist"
@@ -37,7 +37,7 @@ describe LogStash::Codecs::GoogleAppengine do
 
   it "falls back to plain text" do
     decoded = false
-    subject.decode("something that isn't json\n") do |event|
+    subject.decode("something that isn't json") do |event|
       decoded = true
       insist { event.is_a? LogStash::Event }
       insist { event["message"] } == "something that isn't json"

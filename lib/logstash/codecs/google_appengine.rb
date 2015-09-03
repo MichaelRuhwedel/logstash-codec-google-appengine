@@ -1,6 +1,7 @@
 # encoding: utf-8
 require "logstash/codecs/base"
-require "logstash/codecs/json_lines"
+require "logstash/namespace"
+require "logstash/codecs/json"
 
 class LogStash::Codecs::GoogleAppengine < LogStash::Codecs::Base
   config_name "google_appengine"
@@ -8,17 +9,16 @@ class LogStash::Codecs::GoogleAppengine < LogStash::Codecs::Base
   public
 
   def register
-    @json_lines = LogStash::Codecs::JSONLines.new
+    @json = LogStash::Codecs::JSON.new
   end
 
   def decode(data)
-    @json_lines.decode(data) do |event|
-      if is_parse_failure(event)
-        return yield event
+    @json.decode(data) do |json|
+      if is_parse_failure(json)
+        return yield json
       end
-
-      flatten(event).each { |flattenedEvent|
-        yield LogStash::Event.new(flattenedEvent)
+      flatten(json).each { |flattenedJson|
+        yield LogStash::Event.new(flattenedJson)
       }
     end
   end
