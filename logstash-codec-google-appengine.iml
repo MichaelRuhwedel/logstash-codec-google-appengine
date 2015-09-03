@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="RUBY_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="gem" name="Ruby Gem">
+      <configuration>
+        <option name="GEM_APP_ROOT_PATH" value="$MODULE_DIR$" />
+        <option name="GEM_APP_TEST_PATH" value="$MODULE_DIR$/test" />
+        <option name="GEM_APP_LIB_PATH" value="$MODULE_DIR$/lib" />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
+    </content>
+    <orderEntry type="jdk" jdkName="jruby-9.0.1.0-p0" jdkType="JRUBY_SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v1.10.6, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cabin (v0.7.1, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="clamp (v0.6.5, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="coderay (v1.1.0, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.2.5, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ffi (v1.9.10, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="filesize (v0.0.4, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="gem_publisher (v1.5.0, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="gems (v0.8.3, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="i18n (v0.6.9, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="insist (v1.0.0, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="jrjackson (v0.2.9, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="kramdown (v1.8.0, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="logstash-codec-json_lines (v1.0.1, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="logstash-codec-line (v1.0.0, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="logstash-core (v1.5.4, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="logstash-devutils (v0.0.15, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="method_source (v0.8.2, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="minitar (v0.5.4, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="polyglot (v0.3.5, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="pry (v0.10.1, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rake (v10.4.2, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec (v3.1.0, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-core (v3.1.7, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-expectations (v3.1.2, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-mocks (v3.1.3, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-support (v3.1.2, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="slop (v3.6.0, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="spoon (v0.0.4, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="stud (v0.0.21, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="thread_safe (v0.3.5, jruby-9.0.1.0-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="treetop (v1.4.15, jruby-9.0.1.0-p0) [gem]" level="application" />
+  </component>
+</module>
