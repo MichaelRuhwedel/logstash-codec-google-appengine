@@ -57,15 +57,12 @@ context "#decode" do
     expect(collector[0]["time"]).to eq(collector[0]["endTime"])
   end
 
-  it "falls back to plain text" do
+  it "falls not emit an event when it can't be parsed" do
     decoded = false
     subject.decode("something that isn't json") do |event|
       decoded = true
-      insist { event.is_a? LogStash::Event }
-      insist { event["message"] } == "something that isn't json"
-      insist { event["tags"] }.include?("_jsonparsefailure")
     end
-    insist { decoded } == true
+    insist { decoded } == false
   end
 end
 

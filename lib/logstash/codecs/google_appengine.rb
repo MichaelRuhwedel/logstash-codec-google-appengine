@@ -2,6 +2,7 @@
 require "logstash/codecs/base"
 require "logstash/namespace"
 require "logstash/codecs/json"
+require 'securerandom'
 
 class LogStash::Codecs::GoogleAppengine < LogStash::Codecs::Base
   config_name "google_appengine"
@@ -16,7 +17,7 @@ class LogStash::Codecs::GoogleAppengine < LogStash::Codecs::Base
     begin
       @json.decode(data) do |json|
         if is_parse_failure(json)
-          return yield json
+          return @logger.error("Failed to process data", :data => json)
         end
 
         flatten(json).each { |flattenedJson|
