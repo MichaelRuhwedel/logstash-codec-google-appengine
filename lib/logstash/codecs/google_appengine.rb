@@ -22,13 +22,12 @@ class LogStash::Codecs::GoogleAppengine < LogStash::Codecs::Base
           yield LogStash::Event.new(flattenedJson)
         }
       end
-      rescue => e
-        @logger.info("Failed to process data", :error => e, :data => data)
-        yield LogStash::Event.new("message" => data, "tags" => ["_googleappengineparsefailure"])
+    rescue => e
+      @logger.info("Failed to process data", :error => e, :data => data)
+      yield LogStash::Event.new("message" => data, "tags" => ["_googleappengineparsefailure"])
     end
   end
 end
-
 
 private
 
@@ -39,6 +38,10 @@ end
 def flatten(event)
   payload = event['protoPayload']
   lines = payload['line']
-  payload.delete('line')
-  lines.map { |line| payload.merge(line) }
+  if lines
+    payload.delete('line')
+    lines.map { |line| payload.merge(line) }
+  else
+    [payload]
+  end
 end

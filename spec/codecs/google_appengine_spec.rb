@@ -9,30 +9,48 @@ describe LogStash::Codecs::GoogleAppengine do
     next LogStash::Codecs::GoogleAppengine.new
   end
 
-  data = File.open("spec/codecs/appengine.logs.jsonl", "rb").read
 
-  context "#decode" do
-    it "should return an event from json data" do
-      subject.decode(data) do |event|
-        insist { event.is_a? LogStash::Event }
-        insist { event["@type"] } == "type.googleapis.com/google.appengine.logging.v1.RequestLog"
-      end
+
+context "#decode" do
+
+  it "should return an event from json data" do
+    data = File.open("spec/codecs/appengine.logs.jsonl", "rb").read
+    subject.decode(data) do |event|
+      insist { event.is_a? LogStash::Event }
+      insist { event["@type"] } == "type.googleapis.com/google.appengine.logging.v1.RequestLog"
+    end
+  end
+
+  it "should merge the request payload with the reuest lines data" do
+    data = File.open("spec/codecs/appengine.logs.jsonl", "rb").read
+    collector = Array.new
+    subject.decode(data) do |event|
+      collector.push(event)
     end
 
-    it "should merge the request payload with the reuest lines data" do
-      collector = Array.new
-      subject.decode(data) do |event|
-        collector.push(event)
-      end
+    expect(collector.size).to eq(3)
 
-      expect(collector.size).to eq(3)
+    expect(collector[0]["@type"]).to eq("type.googleapis.com/google.appengine.logging.v1.RequestLog")
+    expect(collector[0]["logMessage"]).to eq("IdentityFilter logUserIdentity: [[meta]] <anonymous:true>\n")
 
-      expect(collector[0]["@type"]).to eq("type.googleapis.com/google.appengine.logging.v1.RequestLog")
-      expect(collector[0]["logMessage"]).to eq("IdentityFilter logUserIdentity: [[meta]] <anonymous:true>\n")
+    expect(collector[1]["@type"]).to eq("type.googleapis.com/google.appengine.logging.v1.RequestLog")
+    expect(collector[1]["logMessage"]).to eq("HttpOnlyFilter getSession: add additional Set-Cookie with httpOnly-flag for JSESSIONID\n")
+  end
 
-      expect(collector[1]["@type"]).to eq("type.googleapis.com/google.appengine.logging.v1.RequestLog")
-      expect(collector[1]["logMessage"]).to eq("HttpOnlyFilter getSession: add additional Set-Cookie with httpOnly-flag for JSESSIONID\n")
+  it "should handle logs even when they have no lines" do
+
+    data = File.open("spec/codecs/appengine.logs-without-lines.jsonl", "rb").read
+
+    collector = Array.new
+
+    subject.decode(data) do |event|
+      collector.push(event)
     end
+
+    expect(collector.size).to eq(1)
+
+    expect(collector[0]["@type"]).to eq("type.googleapis.com/google.appengine.logging.v1.RequestLog")
+    expect(collector[0]["resource"]).to eq("/images/website/welcome/keyFeatures/objectives.jpg")
   end
 
   it "falls back to plain text" do
@@ -45,4 +63,7 @@ describe LogStash::Codecs::GoogleAppengine do
     end
     insist { decoded } == true
   end
+end
+
+
 end
