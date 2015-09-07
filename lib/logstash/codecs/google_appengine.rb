@@ -23,8 +23,7 @@ class LogStash::Codecs::GoogleAppengine < LogStash::Codecs::Base
         }
       end
     rescue => e
-      @logger.info("Failed to process data", :error => e, :data => data)
-      yield LogStash::Event.new("message" => data, "tags" => ["_googleappengineparsefailure"])
+      @logger.error("Failed to process data", :error => e, :data => data)
     end
   end
 end
