@@ -32,9 +32,11 @@ context "#decode" do
 
     expect(collector[0]["@type"]).to eq("type.googleapis.com/google.appengine.logging.v1.RequestLog")
     expect(collector[0]["logMessage"]).to eq("IdentityFilter logUserIdentity: [[meta]] <anonymous:true>\n")
+    expect(collector[0]["lineId"]).to eq(collector[0]["requestId"] + "0")
 
     expect(collector[1]["@type"]).to eq("type.googleapis.com/google.appengine.logging.v1.RequestLog")
     expect(collector[1]["logMessage"]).to eq("HttpOnlyFilter getSession: add additional Set-Cookie with httpOnly-flag for JSESSIONID\n")
+    expect(collector[1]["lineId"]).to eq(collector[1]["requestId"] + "1")
   end
 
   it "should handle logs even when they have no lines" do
@@ -51,6 +53,8 @@ context "#decode" do
 
     expect(collector[0]["@type"]).to eq("type.googleapis.com/google.appengine.logging.v1.RequestLog")
     expect(collector[0]["resource"]).to eq("/images/website/welcome/keyFeatures/objectives.jpg")
+    expect(collector[0]["lineId"]).to eq(collector[0]["requestId"])
+    expect(collector[0]["time"]).to eq(collector[0]["endTime"])
   end
 
   it "falls back to plain text" do

@@ -18,6 +18,7 @@ class LogStash::Codecs::GoogleAppengine < LogStash::Codecs::Base
         if is_parse_failure(json)
           return yield json
         end
+
         flatten(json).each { |flattenedJson|
           yield LogStash::Event.new(flattenedJson)
         }
@@ -39,8 +40,14 @@ def flatten(event)
   lines = payload['line']
   if lines
     payload.delete('line')
-    lines.map { |line| payload.merge(line) }
+    lines.map.with_index { |line, i|
+      merged = payload.merge(line)
+      merged['lineId'] = merged['requestId'] + i.to_s
+      merged
+    }
   else
+    payload['time'] = payload['endTime']
+    payload['lineId'] = payload['requestId']
     [payload]
   end
 end
