@@ -13,16 +13,22 @@ class LogStash::Codecs::GoogleAppengine < LogStash::Codecs::Base
   end
 
   def decode(data)
-    @json.decode(data) do |json|
-      if is_parse_failure(json)
-        return yield json
+    begin
+      @json.decode(data) do |json|
+        if is_parse_failure(json)
+          return yield json
+        end
+        flatten(json).each { |flattenedJson|
+          yield LogStash::Event.new(flattenedJson)
+        }
       end
-      flatten(json).each { |flattenedJson|
-        yield LogStash::Event.new(flattenedJson)
-      }
+      rescue => e
+        @logger.info("Failed to process data", :error => e, :data => data)
+        yield LogStash::Event.new("message" => data, "tags" => ["_googleappengineparsefailure"])
     end
   end
 end
+
 
 private
 
