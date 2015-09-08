@@ -1,8 +1,8 @@
 # encoding: utf-8
 require "logstash/codecs/base"
 require "logstash/namespace"
-require "logstash/codecs/json"
-require 'securerandom'
+require "logstash/json"
+require 'digest'
 
 class LogStash::Codecs::GoogleAppengine < LogStash::Codecs::Base
   config_name "google_appengine"
@@ -10,22 +10,17 @@ class LogStash::Codecs::GoogleAppengine < LogStash::Codecs::Base
   public
 
   def register
-    @json = LogStash::Codecs::JSON.new
+    @md5 = Digest::MD5.new
   end
 
   def decode(data)
     begin
-      @json.decode(data) do |json|
-        if is_parse_failure(json)
-          return @logger.error("Failed to process data", :data => json)
-        end
-
-        flatten(json).each { |flattenedJson|
-          yield LogStash::Event.new(flattenedJson)
-        }
-      end
+      data = LogStash::Json.load(data)
+      flatten(data).each { |flattenedJson|
+        yield LogStash::Event.new flattenedJson
+      }
     rescue => e
-      @logger.error("Failed to process data", :error => e, :data => data)
+      @logger.error "Failed to process data", :error => e, :data => data
     end
   end
 end
@@ -38,17 +33,18 @@ end
 
 def flatten(event)
   payload = event['protoPayload']
-  lines = payload['line']
+  payload.delete '@type'
+  lines = payload.delete 'line'
   if lines
-    payload.delete('line')
     lines.map.with_index { |line, i|
-      merged = payload.merge(line)
-      merged['lineId'] = merged['requestId'] + i.to_s
+      merged = payload.merge line
+      merged['_id'] = @md5.hexdigest merged['requestId'] + i.to_s
+      merged['message'] = merged.delete 'logMessage'
       merged
     }
   else
+    payload['_id'] = @md5.hexdigest payload['requestId']
     payload['time'] = payload['endTime']
-    payload['lineId'] = payload['requestId']
     [payload]
   end
 end
