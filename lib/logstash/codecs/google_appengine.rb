@@ -17,7 +17,7 @@ class LogStash::Codecs::GoogleAppengine < LogStash::Codecs::Base
     begin
       data = LogStash::Json.load(data)
       flatten(data).each { |flattenedJson|
-        yield LogStash::Event.new flattenedJson
+        yield(LogStash::Event.new(flattenedJson))
       }
     rescue => e
       @logger.error "Failed to process data", :error => e, :data => data
@@ -42,6 +42,7 @@ def flatten(event)
       merged['message'] = merged.delete 'logMessage'
       merged
     }
+    [lines[0]]
   else
     payload['_id'] = @md5.hexdigest payload['requestId']
     payload['time'] = payload['endTime']
